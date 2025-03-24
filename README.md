@@ -1,11 +1,3 @@
-[![build status](https://github.com/vprusso/toqito/actions/workflows/build-test-actions.yml/badge.svg?style=plastic)](https://github.com/vprusso/toqito/actions/workflows/build-test-actions.yml)
-[![doc status](https://readthedocs.org/projects/toqito/badge/?version=latest&style=plastic)](https://toqito.readthedocs.io/en/latest/)
-[![codecov](https://codecov.io/gh/vprusso/toqito/branch/master/graph/badge.svg?style=plastic)](https://codecov.io/gh/vprusso/toqito)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4743211.svg)](https://doi.org/10.5281/zenodo.4743211)
-[![Downloads](https://static.pepy.tech/personalized-badge/toqito?style=platic&period=total&units=none&left_color=black&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/toqito)
-[![Unitary Fund](https://img.shields.io/badge/Supported%20By-UNITARY%20FUND-brightgreen.svg?style=plastic)](http://unitary.fund)
-
-
 <p align="center">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/vprusso/toqito/raw/cfb62c4a5ce04b782f64229e7acd2b1c97f09801/docs/figures/logo.svg" width="60%">
@@ -15,6 +7,14 @@
 
 
 # toqito: Theory of Quantum Information Toolkit
+
+[![build status](https://github.com/vprusso/toqito/actions/workflows/build-test-actions.yml/badge.svg)](https://github.com/vprusso/toqito/actions/workflows/build-test-actions.yml)
+[![doc status](https://readthedocs.org/projects/toqito/badge/?version=latest)](https://toqito.readthedocs.io/en/latest/)
+[![codecov](https://codecov.io/gh/vprusso/toqito/branch/master/graph/badge.svg)](https://codecov.io/gh/vprusso/toqito)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4743211.svg)](https://doi.org/10.5281/zenodo.4743211)
+[![Downloads](https://static.pepy.tech/personalized-badge/toqito?style=platic&period=total&units=none&left_color=black&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/toqito)
+[![Unitary Foundation](https://img.shields.io/badge/Supported%20By-Unitary%20Foundation-FFFF00.svg)](https://unitary.foundation)
+
 
 The `toqito` package is an open-source Python library for studying various
 objects in quantum information, namely, states, channels, and measurements.
@@ -40,8 +40,8 @@ information.
 
 toqito is available via [PyPi](https://pypi.org/project/toqito/) for Linux, and macOS, with support for Python 3.10 to 3.12.
 
-```console
-(venv) $ pip install toqito
+```sh
+pip install toqito
 ```
 
 The following code gives an example on the usage:
@@ -64,7 +64,6 @@ chsh.classical_value()
 # 0.75
 chsh.quantum_value()
 # 0.8535533
-
 ```
 
 **Detailed documentation on all available methods, options, and input formats is available at [ReadTheDocs](https://toqito.readthedocs.io/en/latest/).**
@@ -73,9 +72,6 @@ chsh.quantum_value()
 
 Full documentation along with specific examples and tutorials are provided here:
 [https://toqito.readthedocs.io/](https://toqito.readthedocs.io/). 
-
-More information can also be found on the following
-[toqito homepage](https://vprusso.github.io/toqito/).
 
 Chat with us in our `toqito` channel on [Discord](http://discord.unitary.fund/). 
 
@@ -91,7 +87,7 @@ pytest --cov-report term-missing --cov=toqito
 ## Citing
 
 You can cite `toqito` using the following DOI:
-10.5281/zenodo.4743211
+`10.5281/zenodo.4743211`
 
 
 If you are using the `toqito` software package in research work, please include
@@ -108,7 +104,7 @@ A BibTeX entry that you can use to cite `toqito` is provided here:
 ```bib
 @misc{toqito,
    author       = {Vincent Russo},
-   title        = {toqito: A {P}ython toolkit for quantum information, version 1.0.0},
+   title        = {toqito: A {P}ython toolkit for quantum information},
    howpublished = {\url{https://github.com/vprusso/toqito}},
    month        = May,
    year         = 2021,
@@ -119,6 +115,9 @@ A BibTeX entry that you can use to cite `toqito` is provided here:
 ## References
 
 The `toqito` project has been used or referenced in the following works:
+
+- [![a](https://img.shields.io/static/v1?label=thesis&message=31639397&color=inactive&style=flat-square)](https://www.proquest.com/openview/eb0021dd3eb463b5fb12b7fc71d920eb/1?cbl=18750&diss=y&pq-origsite=gscholar) Philip, Aby
+"On Multipartite Entanglement and Its Use", (2024).
 
 - [![a](https://img.shields.io/static/v1?label=arXiv&message=2406.13430&color=inactive&style=flat-square)](https://arxiv.org/abs/2406.13430) Bandyopadhyay, Somshubhro and Russo, Vincent
 "Distinguishing a maximally entangled basis using LOCC and shared entanglement", (2024).
@@ -149,8 +148,7 @@ All contributions, bug reports, bug fixes, documentation improvements,
 enhancements, and ideas are welcome.
 
 A detailed overview of how to contribute can be found in the
-[contributing guide](https://toqito.readthedocs.io/en/latest/getting_started.html#contributing).
-
+[contributing guide](https://toqito.readthedocs.io/en/latest/contributing.html#contrib-guide-reference-label).
 
 ## License
 

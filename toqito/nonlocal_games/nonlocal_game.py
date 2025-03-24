@@ -1,5 +1,6 @@
 """Two-player nonlocal game."""
 
+import multiprocessing
 from collections import defaultdict
 
 import cvxpy
@@ -72,20 +73,27 @@ class NonlocalGame:
 
     @classmethod
     def from_bcs_game(cls, constraints: list[np.ndarray], reps: int = 1) -> "NonlocalGame":
-        """Convert constraints that specify a binary constraint system game to a nonlocal game."""
+        """Convert constraints that specify a binary constraint system game to a nonlocal game.
+
+        Binary constraint system games (BCS) games were originally defined in :cite:`Cleve_2014_Characterization`.
+
+        :param constraints: List of binary constraints that define the game.
+        :param reps: Number of parallel repetitions to perform. Default is 1.
+        :return: A NonlocalGame object arising from the variables and constraints that define the game.
+        """
         if (num_constraints := len(constraints)) == 0:
             raise ValueError("At least 1 constraint is required")
         num_variables = constraints[0].ndim
 
-        # Retrieve dependent variables for each constraint
+        # Retrieve dependent variables for each constraint.
         dependent_variables = np.zeros((num_constraints, num_variables))
 
         for j in range(num_constraints):
             for i in range(num_variables):
-                # Identifying independent variables based on equality check
+                # Identifying independent variables based on equality check.
                 dependent_variables[j, i] = np.diff(constraints[j], axis=i).any()
 
-        # Compute the probability matrix
+        # Compute the probability matrix.
         prob_mat = np.zeros((num_constraints, num_variables))
         for j in range(num_constraints):
             p_x = 1.0 / num_constraints
@@ -93,25 +101,48 @@ class NonlocalGame:
             p_y = dependent_variables[j] / num_dependent_vars
             prob_mat[j] = p_x * p_y
 
-        # Compute the prediction matrix
+        # Compute the prediction matrix.
         pred_mat = np.zeros((2**num_variables, 2, num_constraints, num_variables))
         for x_ques in range(num_constraints):
             for a_ans in range(pred_mat.shape[0]):
-                # Convert Alice's truth assignment to binary
+                # Convert Alice's truth assignment to binary.
                 bin_a = np.array(list(map(int, np.binary_repr(a_ans, num_variables))))
 
-                # Convert truth assignment to a tuple for easy indexing
+                # Convert truth assignment to a tuple for easy indexing.
                 truth_assignment = tuple(bin_a)
 
                 for y_ques in range(num_variables):
-                    # Bob’s assignment is Alice’s truth assignment for the current variable
+                    # Bob’s assignment is Alice’s truth assignment for the current variable.
                     b_ans = truth_assignment[y_ques]
 
-                    # Check if this satisfies the constraint
+                    # Check if this satisfies the constraint.
                     if constraints[x_ques][truth_assignment] == 1:
                         pred_mat[a_ans, b_ans, x_ques, y_ques] = 1
 
         return cls(prob_mat, pred_mat, reps)
+
+    def process_iteration(i:int, num_bob_outputs:int, num_bob_inputs:int, pred_mat_copy:np.ndarray,
+                          num_alice_outputs:int, num_alice_inputs:int)-> float:
+        """Help the classical_value function as a helper method.
+
+        :return: A value between [0, 1] representing the tgval.
+        """
+        number = i
+        base = num_bob_outputs
+        digits = num_bob_inputs
+        b_ind = np.zeros(digits)
+
+        for j in range(digits - 1, -1, -1):
+            number, remainder = divmod(number, base)
+            b_ind[j] = remainder
+
+        pred_alice = np.zeros((num_alice_outputs, num_alice_inputs))
+
+        for y_bob_in in range(num_bob_inputs):
+            pred_alice += pred_mat_copy[:, :, int(b_ind[y_bob_in]), y_bob_in]
+
+        tgval = np.sum(np.amax(pred_alice, axis=0))
+        return tgval
 
     def classical_value(self) -> float:
         """Compute the classical value of the nonlocal game.
@@ -146,20 +177,24 @@ class NonlocalGame:
             ) = pred_mat_copy.shape
         pred_mat_copy = np.transpose(pred_mat_copy, (0, 2, 1, 3))
 
-        for i in range(num_alice_outputs**num_bob_inputs):
-            number = i
-            base = num_bob_outputs
-            digits = num_bob_inputs
-            b_ind = np.zeros(digits)
-            for j in range(digits):
-                b_ind[digits - j - 1] = np.mod(number, base)
-                number = np.floor(number / base)
-            pred_alice = np.zeros((num_alice_outputs, num_alice_inputs))
+        num_iterations = num_alice_outputs**num_bob_inputs
 
-            for y_bob_in in range(num_bob_inputs):
-                pred_alice = pred_alice + pred_mat_copy[:, :, int(b_ind[y_bob_in]), y_bob_in]
-            tgval = np.sum(np.amax(pred_alice, axis=0))
-            p_win = max(p_win, tgval)
+        # we parallelize for large problems only
+        if num_iterations > 1000:
+            with multiprocessing.Pool() as pool:  # Creating a pool of processes for parallelization
+                tgvals = pool.starmap(
+                    NonlocalGame.process_iteration,
+                    [(i, num_bob_outputs, num_bob_inputs, pred_mat_copy, num_alice_outputs, num_alice_inputs)
+                    for i in range(num_iterations)]
+                )
+                p_win = max(tgvals)
+        # Using single core implementation for small problems
+        else:
+            for i in range(num_iterations):
+                tgval = NonlocalGame.process_iteration(i, num_bob_outputs, num_bob_inputs, pred_mat_copy,
+                                                       num_alice_outputs, num_alice_inputs)
+                p_win = max(p_win, tgval)
+
         return p_win
 
     def quantum_value_lower_bound(

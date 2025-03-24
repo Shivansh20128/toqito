@@ -39,7 +39,7 @@ can be ignored as :code:`pip install toqito` will also install :code:`cvxpy` as 
 
 As a dependency for many of the solvers, you will need to ensure you have the :code:`BLAS` and :code:`LAPACK`
 mathematical libraries installed on your machine. If you have :code:`numpy` working on your machine
-(installed as a :code:`toqito` dependency), you already have these libraries on your machine. See NumPy `docs <https://numpy.org/install/#numpy-packages--accelerated-linear-algebra-libraries>`_. If you don't,
+(installed as a :code:`toqito` dependency), you already have these libraries on your machine. See NumPy `docs <https://numpy.org/doc/stable/building/blas_lapack.html>`_. If you don't,
 :code:`BLAS` and :code:`LAPACK` can be installed using the following command:
 
 .. code-block:: bash
@@ -75,13 +75,13 @@ If you are using the :code:`toqito` software package in research work, please
 include an explicit mention of :code:`toqito` in your publication. Something
 along the lines of:
 
-.. code-block:: bash
+.. code-block:: text
 
     To solve problem "X" we used `toqito`; a package for studying certain aspects of quantum information.
 
 A BibTeX entry that you can use to cite :code:`toqito` is provided here:
 
-.. code-block:: bash
+.. code-block:: text
 
     @misc{toqito,
        author       = {Vincent Russo},

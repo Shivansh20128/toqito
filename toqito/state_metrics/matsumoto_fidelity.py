@@ -1,4 +1,4 @@
-"""Matsumoto fidelity metric."""
+"""Matsumoto fidelity is the maximum classical fidelity associated with a classical-to-quantum preparation procedure."""
 
 import cvxpy
 import numpy as np
@@ -60,7 +60,7 @@ def matsumoto_fidelity(rho: np.ndarray, sigma: np.ndarray) -> float:
     ... )
     >>> sigma = rho
     >>> np.around(matsumoto_fidelity(rho, sigma), decimals=2)
-    np.longdouble('1.0')
+    np.float64(1.0)
 
     References
     ==========

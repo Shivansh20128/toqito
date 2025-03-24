@@ -1,4 +1,4 @@
-"""Properties of quantum states."""
+"""State Properties is a set of modules that implements some common properties of quantum states."""
 
 from toqito.state_props.is_ensemble import is_ensemble
 from toqito.state_props.is_pure import is_pure
@@ -23,3 +23,4 @@ from toqito.state_props.sk_vec_norm import sk_vector_norm
 from toqito.state_props.is_antidistinguishable import is_antidistinguishable
 from toqito.state_props.is_distinguishable import is_distinguishable
 from toqito.state_props.is_unextendible_product_basis import is_unextendible_product_basis
+from toqito.state_props.common_quantum_overlap import common_quantum_overlap

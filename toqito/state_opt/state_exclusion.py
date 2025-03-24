@@ -1,9 +1,9 @@
-"""State exclusion."""
+"""Calculates the probability of error of single state conclusive state exclusion."""
 
 import numpy as np
 import picos
 
-from toqito.matrix_ops import calculate_vector_matrix_dimension, to_density_matrix, vectors_to_gram_matrix
+from toqito.matrix_ops import calculate_vector_matrix_dimension, to_density_matrix
 from toqito.matrix_props import has_same_dimension
 
 

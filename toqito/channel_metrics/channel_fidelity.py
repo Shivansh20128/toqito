@@ -1,4 +1,4 @@
-"""Compute the channel fidelity between two quantum channels."""
+"""Computes the channel fidelity between two quantum channels."""
 
 import cvxpy
 import numpy as np
@@ -97,4 +97,4 @@ def channel_fidelity(choi_1: np.ndarray, choi_2: np.ndarray) -> float:
 
     problem = cvxpy.Problem(objective, constraints)
 
-    return problem.solve(solver="CVXOPT")
+    return problem.solve(solver="SCS")

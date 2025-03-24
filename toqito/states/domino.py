@@ -1,4 +1,4 @@
-"""Domino state."""
+"""Produce a domino state."""
 
 import numpy as np
 

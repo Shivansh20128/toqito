@@ -18,11 +18,11 @@ import sys
 # -- Project information -----------------------------------------------------
 
 project = "toqito"
-copyright = "2020-2024, toqito Contributors"
+copyright = "2020-2025, toqito contributors"
 author = "Contributors to toqito"
 
 # The full version, including alpha/beta/rc tags
-release = "1.1.0"
+release = "1.1.1"
 
 
 # -- General configuration ---------------------------------------------------
@@ -43,6 +43,7 @@ extensions = [
     "sphinx.ext.githubpages",
     "sphinx.ext.napoleon",
     "sphinxcontrib.bibtex",
+    "sphinx_copybutton",
 ]
 
 bibtex_bibfiles = ["refs.bib"]
@@ -53,11 +54,15 @@ linkcheck_ignore = [
     r"https://arxiv\.org/.*",
     r"https://doi\.org/.*",
     r"https://link\.aps\.org/doi/.*",
-    r"http://dx\.doi\.org/.*"
+    r"http://dx\.doi\.org/.*",
 ]
 # we need to skip these warnigns because all the references appear twice, in a function docstring
 # and on the references page.
 master_doc = "index"
+
+copybutton_prompt_text = r">>> |\.\.\. "
+copybutton_prompt_is_regexp = True
+copybutton_only_copy_prompt_lines = True
 # autosummary_generate = True
 # autodoc_typehints = "none"
 autoapi_dirs = ["../toqito"]
